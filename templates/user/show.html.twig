@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+{% block maintitle %}User Information{% endblock %}
+
+{% block body %}
+      	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools">
+
+				<a class="btn btn-primary" href="{{ path('user_index') }}">back to list</a>
+			</div>
+		</div>
+		<div class="card-body">
+
+
+    <table class="table">
+        <tbody>
+          
+            <tr>
+                <th>Full Name</th>
+                <td>{{ user.fullName }}</td>
+          
+              <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+           
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td colspan="3">{{ user.password }}</td>
+            </tr>
+            <tr>
+               
+           
+              
+         
+                <th>Sex</th>
+                <td>{{ user.sex }}</td>
+                <th>Phone</th>
+                <td>{{ user.phone }}</td>
+            </tr>
+            <tr>
+           
+                <th>Is Active?</th>
+                <td ><span class="badge badge-{{ user.isActive ? 'success' : 'danger' }}">{{ user.isActive ? 'Yes' : 'No' }}</span></td>
+                <th>Last Login</th>
+                <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+           
+                <th>Created At</th>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:iA') : '' }}</td>
+          
+                <th>Updated At</th>
+                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:iA') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+  
+    <a  class="btn btn-warning float-right" href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}

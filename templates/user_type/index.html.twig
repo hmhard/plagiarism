@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Types{% endblock %}
+{% block maintitle %}User Type List{% endblock %}
+
+{% block body %}
+    <div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">
+				User Types
+			</h3>
+			<div class="card-tools">
+				<form id="navbar-search" class="navbar-form search-form pull-right">
+					<input
+					name="search" class="form-control" placeholder="Search here..." type="text" style="width: 239px;">
+				{# <button type="button" class="btn btn-default">
+																		<i class="icon-magnifier"></i>
+																	</button> #}
+				</form>
+			</div>
+		</div>
+		<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_type in user_types %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user_type.name }}</td>
+                <td>{{ user_type.description }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('user_type_show', {'id': user_type.id}) }}">show</a>
+                    <a class="btn btn-warning" href="{{ path('user_type_edit', {'id': user_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('user_type_new') }}">Create new</a>
+</div>
+</div>
+{% endblock %}

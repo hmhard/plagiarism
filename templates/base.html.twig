@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>
+			{% block title %}
+				Home
+			{% endblock %}
+			| Plagiarism Ch. EMR
+		</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    
+    
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datepicker/css/datepicker.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/toastr/toastr.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+		<link
+		rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+		{#
+												    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> #}
+		<link href="{{asset('assets/plugins/fontface/OpenSans.css')}}" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+	
+		<style>
+
+
+		</style>
+		</head>
+
+		<body class="hold-transition sidebar-mini">
+			<div
+				class="wrapper">
+				<!-- Navbar -->
+				{% include "menus/topnav.html.twig" %}
+				<!-- /.navbar -->
+
+				<!-- Main Sidebar Container -->
+					<aside
+					class="main-sidebar sidebar-white     sidebar-light-blue"> <!-- Brand Logo -->
+					<a href="#" class="brand-link navbar-lightblue">
+						<img src="{{ asset('images/icon2.png')}}" alt="Plagiarism Ch. Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+						<span class="brand-text font-weight-light">PPro</span>
+					</a>
+
+					<!-- Sidebar -->
+					<div
+						class="sidebar">
+						<!-- Sidebar user (optional) -->
+						{% if app.user %}
+							<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+								<div class="image">
+									<img src="{{ asset('profile')}}/{{app.user.photo ? app.user.photo : 'user.png'}}" class="img-circle elevation-2" alt="User Image">
+								</div>
+								<div class="info">
+									<a href="#" class="d-block">{{app.user.firstName}}
+										{{app.user.middleName}}</a>
+								</div>
+							</div>
+						{% endif %}
+						<!-- Sidebar Menu -->
+				
+						{% include "menus/sidebarmenu.html.twig" %}
+						<!-- /.sidebar-menu -->
+					</div>
+					<!-- /.sidebar -->
+				</aside>
+
+				<!-- Content Wrapper. Contains page content -->
+				<div
+					class="content-wrapper ">
+					<!-- Content Header (Page header) -->
+					<section class="content-header ">
+						<div class="container-fluid">
+							<div class="row">
+
+								<div class="col-sm-12 ">
+										<div id="loader" style="line-height: 115px; text-align: center;">
+							<img src="{{asset('ajax-loader.gif')}}" id="loading-image" style="display:none"/>
+
+						</div>
+								</div>
+								<div class="col-sm-12 ">
+
+									<h3>
+										{% block maintitle %}
+											Home
+										{% endblock %}
+									</h3>
+								</div>
+								{% block noBreadcrumb %}
+							
+							
+									<div class="col-sm-12 ">
+										<ol class="breadcrumb float-sm-right ">
+											<li class="breadcrumb-item ">
+												<a href="#">Home</a>
+											</li>
+											{% block breadcrumb %}
+							
+											{% endblock %}
+										</ol>
+									</div>
+								{% endblock %}
+							</div>
+						</div>
+						<!-- /.container-fluid -->
+					</section>
+
+					<!-- Main content -->
+					<section class="content">
+						<div class="row">
+							<div class="col-md-12">
+								{% set toast = "" %}
+								{% for label, messages in app.flashes %}
+									{% if label == "success" or label == "warning" or label == "danger"  %}
+
+										{% for message in messages %}
+											<div class="row alert alert-{{ label }} alert-dismissible">
+												<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+												<h4 class="mr-4">
+													<i class="icon fa fa-{% if label=='success' %}check {% else %}ban {% endif %}"></i>
+													Alert!</h4>
+												{{ message }}
+
+											</div>
+
+
+										{% endfor %}
+
+									{% else %}
+										{% for message in messages %}
+											{% set toast = toast ~ 'toastIt("'~ (label | trim('t')) ~'","'~ message ~'","top-right");' %}
+										{% endfor %}
+
+									{% endif %}
+								{% endfor %}
+
+							</div>
+						</div>
+						<div class="container-fluid">
+							<div
+								class="row">
+								<!-- left column -->
+								<div class="col-md-12">
+									{% block body %}
+										<h1>Body yyyyyyyyyyy</h1>
+									{% endblock %}
+								</div>
+								<!--/.col (left) -->
+								<!-- right column -->
+								<div class="col-md-6"></div>
+								<!--/.col (right) -->
+							</div>
+							<!-- /.row -->
+						</div>
+						<!-- /.container-fluid -->
+
+					</section>
+					<!-- /.content -->
+				</div>
+
+				<!-- /.content-wrapper -->
+				<footer class="main-footer">
+					<div class="float-right d-none d-sm-block">
+						<b>Version</b>
+						1.0
+					</div>
+					<strong>Copyright &copy; {{"now"|date('Y')}}
+						<a href="#">Plagiarism checker</a>.</strong>
+					All rights reserved.
+				</footer>
+
+
+				<!-- Control Sidebar -->
+				{# <aside class="control-sidebar control-sidebar-dark">
+																						    <!-- Control sidebar content goes here -->
+																						  </aside> #}
+				<!-- /.control-sidebar --><div id="temp-modal"> </div>
+			</div>
+			<!-- ./wrapper -->
+
+			<!-- jQuery -->
+
+
+
+    
+    
+
+
+
+
+
+
+			<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+			<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+			<!-- Bootstrap 4 -->
+			<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+			<!-- jquery-validation -->
+			{# <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+																		<script src="{{asset('assets/plugins/jquery-validation/additional-methods.min.js"></script> #}
+			<!-- AdminLTE App --><script src="{{asset('assets/dist/js/adminlte.min.js')}}"> </script>
+			<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+
+			<script>
+	
+ 
+</script>			
+{% block javascripts %}
+	
+{% endblock %}
+		</body>
+
+
+	</html>

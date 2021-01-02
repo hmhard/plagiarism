@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+{% block maintitle %}Users List{% endblock %}
+
+{% block body %}
+   
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">
+				Users List(Total:0)
+			</h3>
+			<div class="card-tools">
+				<form id="navbar-search" class="navbar-form search-form pull-right">
+					<input
+					name="search" class="form-control" placeholder="Search here..." type="text" style="width: 239px;">
+				{# <button type="button" class="btn btn-default">
+																						<i class="icon-magnifier"></i>
+																					</button> #}
+				</form>
+			</div>
+		</div>
+		<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+              
+           
+                <th>Email</th>
+                <th>Sex</th>
+                <th>Phone</th>
+                <th>Is Active</th>
+                <th>Last Login</th>
+                <th>Created At</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.sex }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:iA') : '' }}</td>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:iA') : '' }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a class="btn btn-warning" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('user_new') }}">Create new</a>
+{% endblock %}

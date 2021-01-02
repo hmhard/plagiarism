@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Group
+{% endblock %}
+{% block maintitle %}Group Details
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools">
+
+				<a class="btn btn-primary" href="{{ path('group_index') }}">back to list</a>
+			</div>
+		</div>
+		<div class="card-body">
+
+			<table class="table">
+				<tbody>
+
+					<tr>
+						<th>Name</th>
+						<td>{{ group.name }}</td>
+
+						<th>Email</th>
+						<td>{{ group.email }}</td>
+					</tr>
+					<tr>
+						<th>members</th>
+						<td>
+
+                       
+                        {% for member in group.member %}
+                            
+                        {{ member }},
+                        {% endfor %}
+                        </td>
+
+					</tr>
+					<tr>
+						<th>Phone</th>
+						<td>{{ group.phone }}</td>
+
+						<th>Created At</th>
+						<td>{{ group.createdAt ? group.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<a class="btn btn-warning float-right mx-2" href="{{ path('group_edit', {'id': group.id}) }}">edit</a>
+
+			{{ include('group/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groups List
+{% endblock %}
+{% block maintitle %}Groups List
+{% endblock %}
+
+{% block body %}
+
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">
+				Groups List(Total:0)
+			</h3>
+			<div class="card-tools">
+				<form id="navbar-search" class="navbar-form search-form pull-right">
+					<input
+					name="search" class="form-control" placeholder="Search here..." type="text" style="width: 239px;">
+				{# <button type="button" class="btn btn-default">
+																										<i class="icon-magnifier"></i>
+																									</button> #}
+				</form>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Year</th>
+						<th>Academic Year</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>CreatedAt</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for group in groups %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ group.name }}</td>
+							<td>{{ group.year }}</td>
+							<td>{{ group.academicYear }}</td>
+							<td>{{ group.email }}</td>
+							<td>{{ group.phone }}</td>
+							<td>{{ group.createdAt ? group.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>
+								<a class="btn btn-info" href="{{ path('group_show', {'id': group.id}) }}">show</a>
+								<a class="btn btn-warning" href="{{ path('group_edit', {'id': group.id}) }}">edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<a class="btn btn-primary" href="{{ path('group_new') }}">Create new</a>
+		</div>
+	</div>
+{% endblock %}

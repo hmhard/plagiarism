@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project
+{% endblock %}
+{% block maintitle %}Project Details
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+		<div class="card-body row">
+			<a class="btn btn-primary col-3" href="{{ path('project_index') }}">back to list</a>
+			<a class="btn btn-warning col-3 mx-2" href="{{ path('project_edit', {'id': project.id}) }}">Edit</a>
+			<form class=" form-inline col-3">
+			
+			<input type="submit" class="btn btn-secondary mx-2" value="Check Similarity" name="check"/>
+			</form>
+			{{ include('project/_delete_form.html.twig') }}
+			</div>
+
+		
+	</div>
+
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">Detail </h3>
+			<div class="card-tools"></div>
+		</div>
+		<div class="card-body">
+
+			<table class="table">
+				<tbody>
+
+					<tr>
+						<th>Title</th>
+						<td>{{ project.title }}</td>
+
+
+						<th>Status</th>
+						{% set status = project.status  %}
+						{% set stat = ""  %}
+						{% if status == 0 %}
+							{% set stat = "Not Checked" %}
+						{% elseif status == 1 %}
+							{% set stat = "Checked" %}
+						{% elseif status == 2 %}
+							{% set stat = "Failed" %}
+
+						{% endif %}
+						<td>
+							<span class="badge badge-warning">{{ stat }}</span>
+						</td>
+
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td colspan="3">{{ project.description }}</td>
+					</tr>
+					<tr>
+						<th>Group</th>
+						<td colspan="3">{{ project.ownerGroup }}</td>
+					</tr>
+
+					<tr>
+						<th>Uploaded At</th>
+						<td>{{ project.uploadedAt ? project.uploadedAt|date('Y-m-d H:iA') : '' }}</td>
+
+						<th>Checked At</th>
+						<td>{{ project.checkedAt ? project.checkedAt|date('Y-m-d H:iA') : '' }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+	<div class="card card-info">
+
+		<div class="card-header">
+			<h3 class="card-title">Plagiarism History</h3>
+
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Project</th>
+						<th>Onwer</th>
+						<th>Ac. Year</th>
+						<th>Similarity(%)</th>
+						<th>Checked At</th>
+						<th>Checked By</th>
+						<th>Actions</th>
+
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for hist in project.similarityHistories  %}
+						<tr>
+							<td>{{loop.index}}</td>
+							<td>{{hist.project}}</td>
+							<td>{{hist.project.ownerGroup}}</td>
+							<td>{{hist.project.ownerGroup.academicYear}}</td>
+							<td>{{hist.similarity}}</td>
+							<td>{{ hist.checkedAt ? project.checkedAt|date('Y-m-d H:iA') : '' }}</td>
+							<td>{{ hist.checkedBy }}</td>
+							<td>
+								<a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Check Again</a>
+								<a class="btn btn-warning btn-sm" href="{{ path('project_show', {'id': project.id}) }}">view similarities</a>
+							</td>
+
+						</tr>
+
+
+					{% else %}
+						<div class=" h3 text-red ">No History Found. Check Similarity</div>
+
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+    	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">Document Viewer</h3>
+            	<div class="card-tools">
+                	<a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Open</a>
+							
+                </div>
+
+		</div>
+		<div class="card-body">
+        </div>
+        </div>
+{% endblock %}

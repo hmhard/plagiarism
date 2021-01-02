@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register New User
+{% endblock %}
+{% block maintitle %}Register New User
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools">
+
+				<a class="btn btn-primary" href="{{ path('user_index') }}">back to list</a>
+			</div>
+		</div>
+		<div class="card-body">
+
+			{{ include('user/_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}
+
+ {% block javascripts %}
+ <script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
+<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+</script>
+<script>
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+      
+            //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+        $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        })
+          $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        }) 
+         $(".user_phone").mask("99999?99999");
+    }); 
+</script>
+
+{% endblock %}

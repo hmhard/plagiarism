@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Group;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,7 +41,28 @@ class GroupType extends AbstractType
                 "5"=>5,
                 "6"=>6,
             ]])
-            ->add('member')
+            ->add('member'
+            // ,null,
+            , EntityType::class,
+             [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+
+                    $res = $er->createQueryBuilder('u')
+                 
+                        ->where('u.owngroup is NULL')
+                        ->andWhere('u.userType=1')
+                        ->orderBy('u.id', 'ASC');
+                    ;
+                    // dd($res->getQuery()->getResult());
+                    return $res;
+                },
+                'placeholder' => 'Add Member',
+                 "mapped"=>false,
+                 "multiple"=>true,
+
+            ]
+            )
           
         ;
     }

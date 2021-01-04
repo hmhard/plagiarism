@@ -38,9 +38,11 @@ class GroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
           
-            foreach ($group->getMember() as $g){
+            dd($form->getData());
+            foreach ($form->getData()->getMember() as $g){
                 $g->setOwnGroup($group);
             }
+            // dd();
             $group->setCreatedAt(new DateTime('now'));
             $entityManager->persist($group);
             $entityManager->flush();

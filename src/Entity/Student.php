@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\StudentRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=StudentRepository::class)
+ */
+class Student
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="student", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $idNumber;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $year;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdNumber(): ?string
+    {
+        return $this->idNumber;
+    }
+
+    public function setIdNumber(string $idNumber): self
+    {
+        $this->idNumber = $idNumber;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(int $year): self
+    {
+        $this->year = $year;
+
+        return $this;
+    }
+}

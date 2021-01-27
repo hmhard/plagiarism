@@ -10,9 +10,15 @@
 
 		<div class="card-header">
 			<h3 class="card-title"></h3>
-			<div class="card-tools">
+			<div class="card-tools float-right">
 
 				<a class="btn btn-primary" href="{{ path('group_index') }}">back to list</a>
+
+				<a class="btn btn-warning mx-2" href="{{ path('group_edit', {'id': group.id}) }}">edit</a>
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+					Add member
+				</button>
+				{# {{ include('group/_delete_form.html.twig') }} #}
 			</div>
 		</div>
 		<div class="card-body">
@@ -27,18 +33,7 @@
 						<th>Email</th>
 						<td>{{ group.email }}</td>
 					</tr>
-					<tr>
-						<th>members</th>
-						<td>
 
-                       
-                        {% for member in group.member %}
-                            
-                        {{ member }},
-                        {% endfor %}
-                        </td>
-
-					</tr>
 					<tr>
 						<th>Phone</th>
 						<td>{{ group.phone }}</td>
@@ -48,11 +43,96 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="h4">Group Members</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Full Name</th>
+						<th>Id Number</th>
+						<th>Gender</th>
+						<th>Year</th>
+						<th>actions
+
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for member in  group.groupMembers %}
+
+						<tr>
+							<td>{{loop.index}}</td>
+							<td>{{member.user}}</td>
+							<td>{{member.user.student.idNumber}}</td>
+							<td>{{member.user.sex}}</td>
+							<td>{{member.user.student.year}}</td>
+							<td>
+								<form method="post" onsubmit="return confirm('Are you sure you want to remove this member?');">
+									<input type="hidden" name="member_id" value="{{member.user.id}}">
+									<input type="hidden" name="remove_member" value="true">
+									<button class="btn btn-danger btn-sm">remove</button>
+								</form>
+
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+
+			</table>
 
 
-			<a class="btn btn-warning float-right mx-2" href="{{ path('group_edit', {'id': group.id}) }}">edit</a>
-
-			{{ include('group/_delete_form.html.twig') }}
 		</div>
 	</div>
+
+
+	<!-- Button trigger modal -->
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="post" action="">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Member</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group col-12">
+						<input hidden name="add_member" value="true" />
+							<select name="member[]" class=" form-control select2 col-12" placeholder="Select Student" multiple>
+								{% for student in students  %}
+
+									<option value="{{student.id}}">{{student.fullname}}</option>
+								{% endfor %}
+							</select>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-success">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
+		<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+		<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+	</script>
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2()
+
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+
+});
+	</script>
+
 {% endblock %}

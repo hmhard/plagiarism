@@ -60,10 +60,16 @@ class Group
      */
     private $year;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GroupMember::class, mappedBy="belongsTo")
+     */
+    private $groupMembers;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->member = new ArrayCollection();
+        $this->groupMembers = new ArrayCollection();
     }
     public function __toString()
     {
@@ -203,6 +209,36 @@ class Group
     public function setYear(int $year): self
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GroupMember[]
+     */
+    public function getGroupMembers(): Collection
+    {
+        return $this->groupMembers;
+    }
+
+    public function addGroupMember(GroupMember $groupMember): self
+    {
+        if (!$this->groupMembers->contains($groupMember)) {
+            $this->groupMembers[] = $groupMember;
+            $groupMember->setBelongsTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupMember(GroupMember $groupMember): self
+    {
+        if ($this->groupMembers->removeElement($groupMember)) {
+            // set the owning side to null (unless already changed)
+            if ($groupMember->getBelongsTo() === $this) {
+                $groupMember->setBelongsTo(null);
+            }
+        }
 
         return $this;
     }

@@ -105,6 +105,11 @@ class User implements UserInterface
      */
     private $owngroup;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Student::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $student;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -356,6 +361,23 @@ class User implements UserInterface
     public function setOwngroup(?Group $owngroup): self
     {
         $this->owngroup = $owngroup;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(Student $student): self
+    {
+        $this->student = $student;
+
+        // set the owning side of the relation if necessary
+        if ($student->getUser() !== $this) {
+            $student->setUser($this);
+        }
 
         return $this;
     }

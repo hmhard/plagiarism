@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Student;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -48,7 +49,18 @@ class UserController extends AbstractController
             $user->setPassword($userPasswordEncoderInterface->encodePassword($user,$password));
             $user->setRegisteredBy($this->getUser());
             $user->setIsActive(true);
+            $form_data=$request->request->get("user");
             $entityManager->persist($user);
+
+            if($user->getUserType()->getId()==1 && isset($form_data['idNumber']) && isset($form_data['year'])){
+              
+                $student= new Student();
+                $student->setUser($user);
+                $student->setIdNumber($form_data['idNumber']);
+                $student->setYear($form_data['year']);
+                
+                $entityManager->persist($student);
+            }
         
             $entityManager->flush();
             $this->addFlash("success","User Registered");

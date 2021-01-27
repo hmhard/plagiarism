@@ -42,6 +42,17 @@
 		{{ form_widget(form.roles,{'attr':{'class':'form-control select2'}}) }}
 		<div class="help-block with-errors"></div>
 	</div>
+		<div class="form-group col-12 h3 text-pink">if user is student?</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.idNumber) }}</label>
+		{{ form_widget(form.idNumber,{'attr':{'class':'form-control '}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.year) }}</label>
+		{{ form_widget(form.year,{'attr':{'class':'form-control select2'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
 
 
 	

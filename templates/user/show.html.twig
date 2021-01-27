@@ -33,12 +33,7 @@
                 <th>Roles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
-            <tr>
-                <th>Password</th>
-                <td colspan="3">{{ user.password }}</td>
-            </tr>
-            <tr>
-               
+          
            
               
          
@@ -47,6 +42,16 @@
                 <th>Phone</th>
                 <td>{{ user.phone }}</td>
             </tr>
+                {% if user.student %}
+                
+            <tr>
+           
+               <th>Id Number</th>
+                <td>{{ user.student.idNumber}}</td>
+               <th>Year</th>
+                <td>{{ user.student.year}}</td>
+            </tr>
+            {% endif %}
             <tr>
            
                 <th>Is Active?</th>
@@ -54,6 +59,7 @@
                 <th>Last Login</th>
                 <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
+        
             <tr>
            
                 <th>Created At</th>

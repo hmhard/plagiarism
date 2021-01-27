@@ -27,22 +27,20 @@
 		<div class="limiter">
 			<div class="container-login100">
 				<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
-					<form class="login100-form validate-form" method="POST">
-						<span class="login100-form-title p-b-55">
+					<form class="login100-form validate-form">
+          			<span class="login100-form-title p-b-55">
 							Login
 						</span>
-						{% if error %}
-							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-						{% endif %}
+           {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-						{% if app.user %}
-							<div class="mb-3">
-								You are logged in as
-								{{ app.user.username }},
-								<a href="{{ path('app_logout') }}">Logout</a>
-							</div>
-						{% endif %}
-
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+			
 						<div class="wrap-input100 validate-input m-b-16" data-validate="Valid email is required: ex@abc.xyz">
 							<input class="input100" type="text" {{ last_username }} name="username" placeholder="username" required>
 							<span class="focus-input100"></span>
@@ -56,7 +54,9 @@
 							<span class="symbol-input100">
 								<span class="lnr lnr-lock"></span>
 							</span>
-							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
 						</div>
 						<div class="contact100-form-checkbox m-l-4">
 							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
@@ -69,18 +69,32 @@
 								Login
 							</button>
 						</div>
-
-
-					</div>
-				</form>
+					
+					
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</body>
-</html></div><script src="{{asset('assets/login/vendor/jquery/jquery-3.2.1.min.js')}}"></script><script src="{{asset('assets/login/vendor/bootstrap/js/popper.js')}}"></script><script src="https://colorlib.com/etc/lf/Login_v11/vendor/bootstrap/js/bootstrap.min.js"></script><script src="{{asset('assets/login/vendor/select2/select2.min.js')}}"></script><script src="{{asset('assets/login/js/main.js')}}"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script><script>
-window.dataLayer = window.dataLayer || [];
+
+		<script src="{{asset('assets/login/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+
+		<script src="{{asset('assets/login/vendor/bootstrap/js/popper.js')}}"></script>
+		<script src="https://colorlib.com/etc/lf/Login_v11/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+		<script src="{{asset('assets/login/vendor/select2/select2.min.js')}}"></script>
+
+		<script src="{{asset('assets/login/js/main.js')}}"></script>
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
 function gtag() {
 dataLayer.push(arguments);
 }
 gtag('js', new Date());
 
-gtag('config', 'UA-23581568-13');</script></body></html>
+gtag('config', 'UA-23581568-13');
+		</script>
+	</body>
+</html>

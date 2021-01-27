@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Entity\SimilarityHistory;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\SimilarityHistoryRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +67,7 @@ class ProjectController extends AbstractController
     /**
      * @Route("/{id}", name="project_show", methods={"GET","POST"})
      */
-    public function show(Project $project, Request $request): Response
+    public function show(Project $project, Request $request,SimilarityHistoryRepository $similarityHistoryRepository): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         if($request->query->get('check')){
@@ -90,6 +91,9 @@ class ProjectController extends AbstractController
                     $res=shell_exec($cmd);
                     $res=(float)$res*100;
                     // dd($res);
+
+                    $projectHistory= $similarityHistoryRepository->findOneBy(["project"=>$pro]);
+                    if(!$projectHistory)
                     $projectHistory= new SimilarityHistory();
                     $projectHistory->setCheckedProject($project);
                     $projectHistory->setProject($pro);
@@ -97,6 +101,7 @@ class ProjectController extends AbstractController
                     $projectHistory->setCheckedAt(new DateTime('now'));
                     $projectHistory->setCheckedBy($this->getUser());
 
+                    // if(!$projectHistory)
                     $entityManager->persist($projectHistory);
                     $entityManager->flush();
 

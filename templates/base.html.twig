@@ -1,228 +1,169 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>
-			{% block title %}
-				Home
-			{% endblock %}
-			| Plagiarism Ch. EMR
-		</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}
+		
+	{% endblock %}
+	| Plagiarism checker
+	</title>
 
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{asset('assets/style.css')}}">
 
-    
-    
-
-		<link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
-		<link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-
-		<link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-
-		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
-		<link rel="stylesheet" href="{{asset('assets/plugins/datepicker/css/datepicker.css')}}">
-
-		<link rel="stylesheet" href="{{asset('assets/plugins/toastr/toastr.min.css')}}">
-		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-		<link
+<link
 		rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
-		{#
-												    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> #}
-		<link href="{{asset('assets/plugins/fontface/OpenSans.css')}}" rel="stylesheet"> {% block stylesheets %}{% endblock %}
 	
-		<style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4>{{app.user}}</h4>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p><a href="{{path('home')}}"> Plagiarism checker</a></p>
+                {# <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+				 #}
+                <li>
+                    <a href="{{path('group_index')}}">Group</a>
+                </li>
+                <li>
+                    <a href="{{path('project_index')}}">Project</a>
+                </li>
+                {% if app.user.usertype.id == 3 %}
+                    
+                <li>
+                    <a href="{{path('user_index')}}">User</a>
+                </li>
+                <li>
+                    <a href="{{path('user_type_index')}}">User Type</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{{path('app_logout')}}">Logout</a>
+                </li>
+             
+              
+            </ul>
+
+        
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+			
+		<div class="h4">
+		{% block maintitle %}
+			
+		{% endblock %}
+		</div>
 
 
-		</style>
-		</head>
+{# 
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
 
-		<body class="hold-transition sidebar-mini">
-			<div
-				class="wrapper">
-				<!-- Navbar -->
-				{% include "menus/topnav.html.twig" %}
-				<!-- /.navbar -->
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
 
-				<!-- Main Sidebar Container -->
-					<aside
-					class="main-sidebar sidebar-white     sidebar-light-blue"> <!-- Brand Logo -->
-					<a href="#" class="brand-link navbar-lightblue">
-						<img src="{{ asset('images/icon2.png')}}" alt="Plagiarism Ch. Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-						<span class="brand-text font-weight-light">PPro</span>
-					</a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-					<!-- Sidebar -->
-					<div
-						class="sidebar">
-						<!-- Sidebar user (optional) -->
-						{% if app.user %}
-							<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-								<div class="image">
-									<img src="{{ asset('profile')}}/{{app.user.photo ? app.user.photo : 'user.png'}}" class="img-circle elevation-2" alt="User Image">
-								</div>
-								<div class="info">
-									<a href="#" class="d-block">{{app.user.firstName}}
-										{{app.user.middleName}}</a>
-								</div>
-							</div>
-						{% endif %}
-						<!-- Sidebar Menu -->
-				
-						{% include "menus/sidebarmenu.html.twig" %}
-						<!-- /.sidebar-menu -->
-					</div>
-					<!-- /.sidebar -->
-				</aside>
+            </nav> #}
 
-				<!-- Content Wrapper. Contains page content -->
-				<div
-					class="content-wrapper ">
-					<!-- Content Header (Page header) -->
-					<section class="content-header ">
-						<div class="container-fluid">
-							<div class="row">
-
-								<div class="col-sm-12 ">
-										<div id="loader" style="line-height: 115px; text-align: center;">
-							<img src="{{asset('ajax-loader.gif')}}" id="loading-image" style="display:none"/>
-
-						</div>
-								</div>
-								<div class="col-sm-12 ">
-
-									<h3>
-										{% block maintitle %}
-											Home
-										{% endblock %}
-									</h3>
-								</div>
-								{% block noBreadcrumb %}
-							
-							
-									<div class="col-sm-12 ">
-										<ol class="breadcrumb float-sm-right ">
-											<li class="breadcrumb-item ">
-												<a href="#">Home</a>
-											</li>
-											{% block breadcrumb %}
-							
-											{% endblock %}
-										</ol>
-									</div>
-								{% endblock %}
-							</div>
-						</div>
-						<!-- /.container-fluid -->
-					</section>
-
-					<!-- Main content -->
-					<section class="content">
-						<div class="row">
-							<div class="col-md-12">
-								{% set toast = "" %}
-								{% for label, messages in app.flashes %}
-									{% if label == "success" or label == "warning" or label == "danger"  %}
-
-										{% for message in messages %}
-											<div class="row alert alert-{{ label }} alert-dismissible">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-												<h4 class="mr-4">
-													<i class="icon fa fa-{% if label=='success' %}check {% else %}ban {% endif %}"></i>
-													Alert!</h4>
-												{{ message }}
-
-											</div>
-
-
-										{% endfor %}
-
-									{% else %}
-										{% for message in messages %}
-											{% set toast = toast ~ 'toastIt("'~ (label | trim('t')) ~'","'~ message ~'","top-right");' %}
-										{% endfor %}
-
-									{% endif %}
-								{% endfor %}
-
-							</div>
-						</div>
-						<div class="container-fluid">
-							<div
-								class="row">
-								<!-- left column -->
-								<div class="col-md-12">
-									{% block body %}
-										<h1>Body yyyyyyyyyyy</h1>
-									{% endblock %}
-								</div>
-								<!--/.col (left) -->
-								<!-- right column -->
-								<div class="col-md-6"></div>
-								<!--/.col (right) -->
-							</div>
-							<!-- /.row -->
-						</div>
-						<!-- /.container-fluid -->
-
-					</section>
-					<!-- /.content -->
-				</div>
-
-				<!-- /.content-wrapper -->
-				<footer class="main-footer">
-					<div class="float-right d-none d-sm-block">
-						<b>Version</b>
-						1.0
-					</div>
-					<strong>Copyright &copy; {{"now"|date('Y')}}
-						<a href="#">Plagiarism checker</a>.</strong>
-					All rights reserved.
-				</footer>
-
-
-				<!-- Control Sidebar -->
-				{# <aside class="control-sidebar control-sidebar-dark">
-																						    <!-- Control sidebar content goes here -->
-																						  </aside> #}
-				<!-- /.control-sidebar --><div id="temp-modal"> </div>
-			</div>
-			<!-- ./wrapper -->
-
-			<!-- jQuery -->
-
-
-
-    
-    
-
-
-
-
-
-
-			<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
-			<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
-			<!-- Bootstrap 4 -->
-			<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-			<!-- jquery-validation -->
-			{# <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
-																		<script src="{{asset('assets/plugins/jquery-validation/additional-methods.min.js"></script> #}
-			<!-- AdminLTE App --><script src="{{asset('assets/dist/js/adminlte.min.js')}}"> </script>
-			<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
-
-			<script>
-	
- 
-</script>			
-{% block javascripts %}
+{% block body %}
 	
 {% endblock %}
-		</body>
+        </div>
+    </div>
 
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+	<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+		
+			<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 
-	</html>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    <script>
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+      
+            //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+        $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        })
+          $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        }) 
+         $(".user_phone").mask("99999?99999");
+    }); 
+</script>
+    {% block javascripts %}
+        
+    {% endblock %}
+</body>
+
+</html>

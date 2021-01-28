@@ -61,8 +61,8 @@ class ProjectController extends AbstractController
 
 
 
-                $cmd = "python3 " . $this->getParameter('kernel.project_dir') . "/public/load.py " . $destination . "/" . $newFilename . " 2>&1";
-
+                $cmd = "python " . $this->getParameter('kernel.project_dir') . "/public/load.py " . $destination . "/" . $newFilename . " 2>&1";
+// dd($cmd);
                 $res = shell_exec($cmd);
                 $res = explode("\n", $res)[0];
                 $res = explode(",", $res);

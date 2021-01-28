@@ -11,7 +11,7 @@ import sys
 
 import datetime
 
-connection = mysql.connector.connect(host='localhost',database='plag',user='extra', password='Qwerty12!@')
+connection = mysql.connector.connect(host='localhost',database='plag',user='root', password='')
 
 # total arguments
 n = len(sys.argv)
@@ -27,7 +27,7 @@ def store(project_id,noOfParagraph,word_list,word_count, date,freq_mapping):
         cursor = connection.cursor()
         cursor.execute(mySql_insert_query)
         connection.commit()
-        print(cursor.rowcount, "  inserted successfully  ")
+        # print(cursor.rowcount, "  inserted successfully  ")
         cursor.close()
 
     except mysql.connector.Error as error:
@@ -40,7 +40,7 @@ def store2(project_id,paragraph,content):
         cursor = connection.cursor()
         cursor.execute(mySql_insert_query)
         connection.commit()
-        print(cursor.rowcount, "  inserted successfully  ")
+        # print(cursor.rowcount, "  inserted successfully  ")
         cursor.close()
 
     except mysql.connector.Error as error:

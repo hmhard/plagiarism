@@ -10,20 +10,22 @@
 		<div class="card-body row">
 			<a class="btn btn-primary col-3" href="{{ path('project_index') }}">back to list</a>
 			<a class="btn btn-warning col-3 mx-2" href="{{ path('project_edit', {'id': project.id}) }}">Edit</a>
-			<form class=" form-inline col-3">
-			
-			<input type="submit" class="btn btn-secondary mx-2" value="Check Similarity" name="check"/>
-			</form>
-			{{ include('project/_delete_form.html.twig') }}
-			</div>
+			<form class=" form-inline col-2 mr-1">
 
-		
+				<input type="submit" class="btn btn-secondary mx-2" value="Check Similarity" name="check"/>
+			</form>
+			<button  class="btn btn-success col-2 mr-1 open_document">Open Document</button>
+			{{ include('project/_delete_form.html.twig') }}
+		</div>
+
+
 	</div>
 
 	<div class="card">
 
 		<div class="card-header">
-			<h3 class="card-title">Detail </h3>
+			<h3 class="card-title">Detail
+			</h3>
 			<div class="card-tools"></div>
 		</div>
 		<div class="card-body">
@@ -58,7 +60,7 @@
 					</tr>
 					<tr>
 						<th>Group</th>
-						<td colspan="3">{{ project.ownerGroup }}</td>
+						<td colspan="3">{{ project.ownerGroup ~" ("~ (project.ownerGroup.academicYear ~" -"~ project.ownerGroup.year) ~")"}}</td>
 					</tr>
 
 					<tr>
@@ -74,6 +76,41 @@
 
 		</div>
 	</div>
+
+{% if project.projectFileDetail %}
+	
+	<div class="card card-info">
+
+		<div class="card-header">
+			<h3 class="card-title">File Detail</h3>
+{% set file_detail = project.projectFileDetail  %}
+		</div>
+		<div class="card-body">
+			<table class="table table-borderless">
+			<tr>
+			<td width="20%">Line Count</td>
+			<td class=" h2  text-warning" >{{file_detail.sentenceCount}}</td>
+			<td>Word Count</td>
+			<td class=" h2  text-success" style="">{{file_detail.wordCount}}</td>
+			</tr>
+			<tr>
+			<td width="40%">Distinct Words Count</td>
+			<td class=" h2 text-info" >{{file_detail.distinctWordCount}}</td>
+			<td>Paragraph Count</td>
+			<td class=" h2  text-primary" >not known</td>
+			</tr>
+			<tr>
+			<td width="40%">File Type</td>
+			<td class=" h2 text-info" >docx</td>
+			<td>View File</td>
+			<td class=" h2  text-primary" >	<button class="btn btn-success  open_document">Open Document</button>
+		</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+{% endif %}
+
 	<div class="card card-info">
 
 		<div class="card-header">
@@ -107,8 +144,13 @@
 							<td>{{ hist.checkedAt ? project.checkedAt|date('Y-m-d H:iA') : '' }}</td>
 							<td>{{ hist.checkedBy }}</td>
 							<td>
-								<a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Check Again</a>
-								<a class="btn btn-warning btn-sm" href="{{ path('project_show', {'id': project.id}) }}">view similarities</a>
+								{# <a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Check Again</a> #}
+								<form action="{{path('view_similarity')}}" method="post">
+								<input hidden name="check" value="true"/>
+								<input hidden name="original" value="{{project.id}}"/>
+								<input hidden name="to_be_checked" value="{{hist.project.id}}"/>
+								<button class="btn btn-warning btn-sm" type="submit">view content</button>
+							</form>
 							</td>
 
 						</tr>
@@ -123,17 +165,18 @@
 		</div>
 	</div>
 
-    	<div class="card">
 
-		<div class="card-header">
-			<h3 class="card-title">Document Viewer</h3>
-            	<div class="card-tools">
-                	<a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Open</a>
-							
-                </div>
+{% endblock %}
+{% block javascripts %}
+	<script>
 
-		</div>
-		<div class="card-body">
-        </div>
-        </div>
+		$('.open_document').click(function () {
+
+
+var mywindow = window.open('{{ asset("documents/cov.docx") }}', 'viewer');
+mywindow.addEventListener('load', function () { // alert('hello');
+}, false);
+
+})
+	</script>
 {% endblock %}

@@ -71,9 +71,20 @@ class Project
      */
     private $similarityHistories;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ProjectFileDetail::class, mappedBy="project", cascade={"persist", "remove"})
+     */
+    private $projectFileDetail;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FileContent::class, mappedBy="project")
+     */
+    private $fileContents;
+
     public function __construct()
     {
         $this->similarityHistories = new ArrayCollection();
+        $this->fileContents = new ArrayCollection();
     }
     public function __toString()
     {
@@ -217,6 +228,53 @@ class Project
             // set the owning side to null (unless already changed)
             if ($similarityHistory->getCheckedProject() === $this) {
                 $similarityHistory->setCheckedProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProjectFileDetail(): ?ProjectFileDetail
+    {
+        return $this->projectFileDetail;
+    }
+
+    public function setProjectFileDetail(ProjectFileDetail $projectFileDetail): self
+    {
+        $this->projectFileDetail = $projectFileDetail;
+
+        // set the owning side of the relation if necessary
+        if ($projectFileDetail->getProject() !== $this) {
+            $projectFileDetail->setProject($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FileContent[]
+     */
+    public function getFileContents(): Collection
+    {
+        return $this->fileContents;
+    }
+
+    public function addFileContent(FileContent $fileContent): self
+    {
+        if (!$this->fileContents->contains($fileContent)) {
+            $this->fileContents[] = $fileContent;
+            $fileContent->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFileContent(FileContent $fileContent): self
+    {
+        if ($this->fileContents->removeElement($fileContent)) {
+            // set the owning side to null (unless already changed)
+            if ($fileContent->getProject() === $this) {
+                $fileContent->setProject(null);
             }
         }
 

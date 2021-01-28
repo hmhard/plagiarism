@@ -15,7 +15,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('document',FileType::class,["mapped"=>false,"attr"=>["accept"=>""]])
+            ->add('document',FileType::class,["mapped"=>false,"attr"=>["accept"=>".docx"]])
         
             ->add('ownerGroup',null,["placeholder"=>"Select Group"])
         

@@ -24,6 +24,9 @@
 <link
 		rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 	
+    {% block stylesheets %}
+        
+    {% endblock %}
 </head>
 
 <body>
@@ -117,7 +120,26 @@
                 </div>
 
             </nav> #}
+<div class="row">
+							<div class="col-md-12">
 
+								{% for label, messages in app.flashes %}
+									{% for message in messages %}
+										<div class="row alert alert-{{ label }} alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+											<h4 class="mr-4">
+												<i class="icon fa fa-{% if label=='success' %}check {% else %}ban {% endif %}"></i>
+												Alert!</h4>
+											{{ message }}
+
+										</div>
+
+
+									{% endfor %}
+								{% endfor %}
+
+							</div>
+						</div>
 {% block body %}
 	
 {% endblock %}

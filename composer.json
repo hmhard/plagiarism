@@ -79,12 +79,10 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts",
-            "PhantomInstaller\\Installer::installPhantomJS"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "PhantomInstaller\\Installer::installPhantomJS"
+            "@auto-scripts"
         ]
     },
     "conflict": {

@@ -1,7 +1,7 @@
 import math 
 import string 
 import sys 
-import docx
+
 import sys
 
 # total arguments
@@ -12,15 +12,11 @@ n = len(sys.argv)
 # list of the lines of text 
 # in the file. 
 def getText(filename):
-    # write_file=open((sys.argv[1].split('.')[0])+".txt",'a+');
-    doc = docx.Document(filename)
-    fullText = []
-    for para in doc.paragraphs:
-        # for text in para.text.split('.'):
-        #     print(text+"")
-        #     write_file.write(text.strip()+"\n")
-        fullText.append(para.text)
-    return '\n'.join(fullText)
+	try:
+		fullText=open(filename,"r").read()
+		return fullText
+	except Exception as e:
+		print(e)
 def read_file(filename): 
 	
 	try: 

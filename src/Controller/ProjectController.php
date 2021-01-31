@@ -7,8 +7,10 @@ use App\Entity\ProjectFileDetail;
 use App\Entity\SimilarityHistory;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\ProjectSessionRepository;
 use App\Repository\SimilarityHistoryRepository;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,18 +24,33 @@ class ProjectController extends AbstractController
     /**
      * @Route("/", name="project_index", methods={"GET"})
      */
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository,PaginatorInterface $paginator,Request $request): Response
     {
+
+        $queryBuilder = $projectRepository->getData([]);
+   
+
+        $data = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            10
+        );
+     
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
+            'projects' => $data,
         ]);
     }
 
     /**
      * @Route("/new", name="project_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,ProjectRepository $projectRepository,ProjectSessionRepository $projectSessionRepository): Response
     {
+        if(!$projectSessionRepository->getActiveProject()){
+            $this->addFlash("danger", "No Active Project Session");
+            return $this->redirectToRoute('project_index');
+        }
+
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
@@ -42,6 +59,9 @@ class ProjectController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
 
+            if (!$projectRepository->findOneBy(["projectSession" => $project->getProjectSession(),"ownerGroup"=>$project->getOwnerGroup()])) {
+
+            if (!$projectRepository->findOneBy(["title" => $project->getTitle()])) {
             $uploadedFile = $form['document']->getData();
             if ($uploadedFile->getClientOriginalExtension() == "docx") {
                 $destination = $this->getParameter('kernel.project_dir') . '/public/documents';
@@ -84,10 +104,21 @@ class ProjectController extends AbstractController
 
                 $this->addFlash("success", "Project uploaded");
                 return $this->redirectToRoute('project_index');
-            } else {
+            
+            }
+             else {
                 $this->addFlash("danger", "file type not accepted");
             }
         }
+
+             else {
+                $this->addFlash("danger", "Similar Project Title");
+            }
+        }
+        else {
+            $this->addFlash("danger",  sprintf("This Group already uploaded ".$project->getProjectSession()->getName()));
+        }
+    }
 
         return $this->render('project/new.html.twig', [
             'project' => $project,
@@ -143,6 +174,14 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('project_show', ["id" => $project->getId()]);
         }
 
+        if($request->request->get('take_action')){
+
+            $action=$request->request->get('project_action');
+            $project->setStatus($action);
+            $entityManager->flush();
+            $this->addFlash("success","Project Status Updated");
+            return $this->redirectToRoute("project_show",["id"=>$project->getId()]);
+        }
 
         return $this->render('project/show.html.twig', [
             'project' => $project,

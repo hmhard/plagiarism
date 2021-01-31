@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Group;
 use App\Entity\GroupMember;
+use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupMemberRepository;
 use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +26,18 @@ class GroupController extends AbstractController
     /**
      * @Route("/", name="group_index", methods={"GET"})
      */
-    public function index(GroupRepository $groupRepository): Response
+    public function index(GroupRepository $groupRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $queryBuilder = $groupRepository->getData([]);
+   
+
+        $data = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('group/index.html.twig', [
-            'groups' => $groupRepository->findAll(),
+            'groups' => $data,
         ]);
     }
 
@@ -35,7 +47,30 @@ class GroupController extends AbstractController
     public function new(Request $request, GroupRepository $groupRepository, UserRepository $userRepository): Response
     {
         $group = new Group();
-        $form = $this->createForm(GroupType::class, $group);
+        $form = $this->createForm(GroupType::class, $group)
+        ->add('member'
+          
+        , EntityType::class,
+         [
+            'class' => User::class,
+            'query_builder' => function (EntityRepository $er) {
+
+                $res = $er->createQueryBuilder('u')
+             
+                    ->where('u.owngroup is NULL')
+                    ->andWhere('u.userType=1')
+                    ->orderBy('u.id', 'ASC');
+                ;
+             
+                return $res;
+            },
+          
+            'placeholder' => 'Add Member',
+             "mapped"=>false,
+             "multiple"=>true,
+
+        ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -129,7 +164,38 @@ class GroupController extends AbstractController
      */
     public function edit(Request $request, Group $group): Response
     {
-        $form = $this->createForm(GroupType::class, $group);
+        $users=[];
+    
+        foreach($group->getGroupMembers() as $user){
+            $users[]=$user->getUser();
+        }
+
+        $form = $this->createForm(GroupType::class, $group)
+        ->add('member'
+          
+        , EntityType::class,
+         [
+            'class' => User::class,
+            'query_builder' => function (EntityRepository $er) {
+
+                $res = $er->createQueryBuilder('u')
+             
+                    ->where('u.owngroup is NULL')
+                    ->andWhere('u.userType=1')
+                    ->orderBy('u.id', 'ASC');
+                ;
+             
+                return $res;
+            },
+            'choices' => $users,
+            'placeholder' => 'Add Member',
+             "mapped"=>false,
+             "multiple"=>true,
+
+        ]
+        )
+        ;
+      
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

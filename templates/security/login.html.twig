@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Login V11</title>
+		<title>Plagiarism Checker</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="icon" type="image/png" href="https://colorlib.com/etc/lf/Login_v11/images/icons/favicon.ico"/>
+		{# <link rel="icon" type="image/png" href="https://colorlib.com/etc/lf/Login_v11/images/icons/favicon.ico"/> #}
 
 		<link rel="stylesheet" type="text/css" href="{{asset('assets/login/vendor/bootstrap/css/bootstrap.min.css')}}">
 
@@ -28,6 +28,9 @@
 			<div class="container-login100">
 				<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
 					<form class="login100-form validate-form" method="POST">
+						<span class="h5  text-center mb-3">
+							Plagiarism Checker for Jimma Unv.
+						</span>
 						<span class="login100-form-title p-b-55">
 							Login
 						</span>
@@ -68,6 +71,7 @@
 							<button class="login100-form-btn" type="submit">
 								Login
 							</button>
+							<a href="{{path('user_register')}}" class="btn-secondary btn float-right">register</a>
 						</div>
 
 

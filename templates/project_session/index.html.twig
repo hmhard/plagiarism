@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project Session
+{% endblock %}
+{% block maintitle %}Project Session
+{% endblock %}
+
+{% block body %}
+
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">
+				Project Session(Total:{{project_sessions|length}})
+			</h3>
+                <a class="btn btn-primary float-right" href="{{ path('project_session_new') }}">Create new</a>
+
+			<div class="card-tools">
+				{# <form id="navbar-search" class="navbar-form search-form pull-right">
+					<input
+					name="search" class="form-control" placeholder="Search here..." type="text" style="width: 239px;">
+						</form>
+			 #}
+			</div>
+		</div>
+		<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Created At</th>
+                <th>Time From</th>
+                <th>Time To</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for project_session in project_sessions %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ project_session.name }}</td>
+                <td>{{ project_session.createdAt ? project_session.createdAt|date('Y-m-d H:iA') : '' }}</td>
+                <td>{{ project_session.timeFrom ? project_session.timeFrom|date('h:iA d F y') : '' }}</td>
+                <td>{{ project_session.timeTo ? project_session.timeTo|date('h:iA d F y') : '' }}</td>
+                <td>
+                    {# <a class="btn btn-info btn-sm" href="{{ path('project_session_show', {'id': project_session.id}) }}">show</a> #}
+              {{ include('project_session/_delete_form.html.twig') }}
+                    <a class="btn btn-warning btn-sm" href="{{ path('project_session_edit', {'id': project_session.id}) }}">edit</a>
+				
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+{% endblock %}

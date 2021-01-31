@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Project Session
+{% endblock %}
+{% block maintitle %}New Project Session
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+	<link rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools">
+
+				<a class="btn btn-primary" href="{{ path('project_session_index') }}">back to list</a>
+			</div>
+		</div>
+		<div class="card-body">
+
+
+			{{ include('project_session/_form.html.twig') }}
+
+		</div>
+	</div>
+{% endblock %}

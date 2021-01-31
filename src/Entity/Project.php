@@ -81,6 +81,12 @@ class Project
      */
     private $fileContents;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ProjectSession::class, inversedBy="projects")
+      * @ORM\JoinColumn(nullable=false)
+     */
+    private $projectSession;
+
     public function __construct()
     {
         $this->similarityHistories = new ArrayCollection();
@@ -277,6 +283,18 @@ class Project
                 $fileContent->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProjectSession(): ?ProjectSession
+    {
+        return $this->projectSession;
+    }
+
+    public function setProjectSession(?ProjectSession $projectSession): self
+    {
+        $this->projectSession = $projectSession;
 
         return $this;
     }

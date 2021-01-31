@@ -22,19 +22,35 @@ class ProjectRepository extends ServiceEntityRepository
     // /**
     //  * @return Project[] Returns an array of Project objects
     //  */
-    /*
-    public function findByExampleField($value)
+   
+    public function getData($value=[])
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            // ->andWhere('p.exampleField = :val')
+            // ->setParameter('val', $value)
+            ->orderBy('p.id', 'DESC')
+         
             ->getQuery()
-            ->getResult()
+           
         ;
     }
-    */
+    public function getCount($filter=[])
+    {
+        $qb= $this->createQueryBuilder('p')
+        ->select('count(p)');
+        if(isset($filter['status']) && sizeof($filter['status'])>0)
+            $qb=$qb->andWhere('p.status in  (:status)')
+            ->setParameter('status', $filter['status']);
+
+
+        return $qb->orderBy('p.id', 'DESC')
+         
+            ->getQuery()
+            ->getSingleScalarResult()
+           
+        ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Project

@@ -73,7 +73,7 @@ class Group
     }
     public function __toString()
     {
-        return $this->name;
+        return $this->name." (AY-".$this->academicYear." Y- ".$this->year.")";
     }
 
     public function getId(): ?int

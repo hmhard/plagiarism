@@ -16,19 +16,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
  		<link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
  <!-- Theme style -->
  	<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+   		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+<link
+		rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+	
 	 <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
-  {# <!-- Navbar -->
+  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
       <a href="#" class="navbar-brand">
         <img src="" alt="PPRo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">PPro</span>
+        <span class="brand-text font-weight-light">Plagiarism checker</span>
       </a>
       
       <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,17 +49,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
          
         </ul>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-0 ml-md-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
       </div>
 
       <!-- Right navbar links -->
@@ -63,36 +56,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fas fa-comments"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
+            {{app.user ? app.user:""}}
+           
           </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
          
-         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-          </div>
         </li>
-        <!-- Notifications Dropdown Menu -->
+     
         <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
+         {% if app.user %}
+          <a class="nav-link" href="{{path('app_logout')}}">
+            <i class="fas fa-user"></i>
+         Logout
           </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
+         {% else %}
+          <a class="nav-link"  href="{{path('app_login')}}">
+            <i class="fas fa-user"></i>
+         Login
+          </a>
            
-           
-          
-           
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
+         {% endif %} 
+         
         </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
-              class="fas fa-th-large"></i></a>
-        </li>
+     
+       
+       
       </ul>
     </div>
-  </nav> #}
+  </nav>
   <!-- /.navbar -->
 
   <!-- Content Wrapper. Contains page content -->
@@ -148,6 +138,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{asset('assets/dist/js/adminlte.min.js')}}"> </script>
 			
+      		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 
+  <script>
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+      
+            //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+        $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        })
+          $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        }) 
+         $(".user_phone").mask("99999?99999");
+    }); 
+</script>
 </body>
 </html>

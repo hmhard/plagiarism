@@ -1,33 +1,146 @@
 {% extends "base.html.twig" %}
 {% block stylesheets %}
-    <style>
-
-    </style>
+	<style></style>
 {% endblock %}
 {% block body %}
 
 
-<div class="text-center">
-    <h1 >Welcome {{ app.user ? app.user.name:"Friend" }}</h1>
-    <h3 class=" text-danger"> WITH GREAT POWER COMES GREAT RESPONSIBILITY!! </h3>
-    <h4 class="my-5 text-warning">This Place is kept for dashboard</h4>
+	<div class="card card-outline card-info">
+	<div class="card-body">
+	<div class="text-center">
+		<h1>Welcome
+			{{ app.user ? app.user.name:"Friend" }}</h1>
+		<h3 class=" text-danger">
+			WITH GREAT POWER COMES GREAT RESPONSIBILITY!!
+		</h3>
 
-</div>
-<div class="card">
-<div class="card-body row">
-<div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua">
-            <i class="ion ion-ios-gear-outline"></i></span>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-info">
+					<i class="far fa-envelope"></i>
+				</span>
 
-            <div class="info-box-content">
-              <span class="info-box-text">CPU Traffic</span>
-              <span class="info-box-number">90<small>%</small></span>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-        </div>
-</div>
-</div>
+				<div class="info-box-content">
+					<span class="info-box-text">Accepted Projects</span>
+					<span class="info-box-number">{{accepted_projects}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-success">
+					<i class="far fa-flag"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Rejected Projects</span>
+					<span class="info-box-number">{{rejected_projects}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-warning">
+					<i class="far fa-copy"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Total Projects</span>
+					<span class="info-box-number">{{total_projects}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-danger">
+					<i class="far fa-star"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text"></span>
+					<span class="info-box-number"></span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+	</div>
+
+  {% if app.user.userType.id == 3 %}
+    
+	<div class="row">
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-info">
+					<i class="far fa-envelope"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Active Users</span>
+					<span class="info-box-number">{{active_users}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-success">
+					<i class="far fa-flag"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Deactivated Users</span>
+					<span class="info-box-number">{{inactive_users}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-warning">
+					<i class="far fa-copy"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Total Users</span>
+					<span class="info-box-number">{{total_users}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+		<div class="col-md-3 col-sm-6 col-12">
+			<div class="info-box">
+				<span class="info-box-icon bg-danger">
+					<i class="far fa-star"></i>
+				</span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">User Type</span>
+					<span class="info-box-number">{{userTypes|length}}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+		<!-- /.col -->
+	</div>
+  {% endif %}
 {% endblock %}

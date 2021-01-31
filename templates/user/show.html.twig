@@ -75,4 +75,10 @@
     <a  class="btn btn-warning float-right" href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
 
     {{ include('user/_delete_form.html.twig') }}
+    {% if user.isActive %}
+    <a  class="btn btn-danger mx-3 float-right" href="{{ path('user_deactivate', {'id': user.id}) }}">Deactivate</a>
+    {% else %}
+    <a  class="btn btn-success mx-3 float-right" href="{{ path('user_activate', {'id': user.id}) }}">Activate</a>
+        
+    {% endif %}
 {% endblock %}

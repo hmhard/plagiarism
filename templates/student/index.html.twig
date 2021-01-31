@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projects List
+{% endblock %}
+{% block maintitle %}Projects List
+{% endblock %}
+
+{% block body %}
+
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title">
+				My Groups (Total:0)
+			</h3>
+	<a class="btn btn-warning text-center float-right " href="{{ path('student_project_upload') }}">Upload new Project</a>
+						<a class="btn btn-primary float-right mx-2" href="{{ path('student_group_new') }}">Create new Group</a>
+
+			<div class="card-tools">
+				{# <form id="navbar-search" class="navbar-form search-form pull-right">
+					<input
+					name="search" class="form-control" placeholder="Search here..." type="text" style="width: 239px;">
+						</form>
+			 #}
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table ">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Year</th>
+						<th>AY</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>Created At</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for group in groups %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ group.name }}</td>
+							<td>{{ group.year }}</td>
+							<td>{{ group.academicYear }}</td>
+							<td>{{ group.email }}</td>
+							<td>{{ group.phone }}</td>
+							<td>{{ group.createdAt ? group.createdAt|date('Y-m-d H:iA') : '' }}</td>
+							<td>
+								<a class="btn btn-info btn-sm" href="{{ path('student_group_show', {'id': group.id}) }}">show</a>
+								<a class="btn btn-success btn-sm" href="{{ path('student_project', {'id': group.id}) }}">Project</a>
+								<a class="btn btn-warning btn-sm" href="{{ path('student_group_edit', {'id': group.id}) }}">edit</a>
+							</td>
+						</tr>
+                        <tr class=" mt-2">
+
+
+
+
+
+
+
+
+
+
+                        <td class="text-pink my-3"></td>
+                        <td class="text-pink"></td>
+                        <td class="text-pink" colspan="2">Members</td>
+                        <td class="" colspan="5">
+<div class="row d-flex align-items-stretch">
+                        {% for member in group.groupMembers %}
+                           {# {{loop.index}}. {{member.user|upper}} ( {{member.user.student.idNumber}})</br> #}
+                       
+
+          
+            <div class="col-6">
+              <div class="card bg-light">
+               
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><b>{{member.user|upper}}</b></h2>
+                      <p class="text-muted text-sm"><b>Id Number: </b>  {{member.user.student.idNumber}} </p>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-user"></i></span> Student</li>
+                      </ul>
+                    </div>
+                    <div class="col-5 text-center">
+                      <img src="{{asset('assets/dist/img/avatar3.png')}}" alt="[student photo]" class="img-circle img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                    
+                    <a href="#" class="btn btn-sm btn-secondary">
+                      <i class="fas fa-user"></i> View Profile
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+			
+					   
+					    {% endfor %}
+    </div>
+                        </td>
+                        </tr>
+					{% else %}
+						<tr>
+							<td colspan="6">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			
+
+		</div>
+	</div>
+
+	</div>
+{% endblock %}

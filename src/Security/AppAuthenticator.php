@@ -73,6 +73,10 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Invalid credentials try again.');
         }
+        if ($user->getIsActive()==false) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Account not activated yet.');
+        }
 
         return $user;
     }
@@ -92,11 +96,14 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $user=$token->getUser();
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        
+       
+        if($user->getUserType()->getId()==1)
+        return new RedirectResponse($this->urlGenerator->generate('student'));
         return new RedirectResponse($this->urlGenerator->generate('home'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }

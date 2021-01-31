@@ -23,6 +23,7 @@ class UserType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('middleName')
+            ->add('userType')
             ->add('sex', ChoiceType::class,["choices" => ["Male"=>"Male","Female"=>"Female"],"placeholder"=>"Select Sex"])
             ->add('phone')
             // ->add('isActive')
@@ -30,7 +31,7 @@ class UserType extends AbstractType
             // ->add('createdAt')
             // ->add('updatedAt')
             // ->add('registeredBy')
-            ->add('userType')
+         
             ->add('idNumber',null,[
                 "required"=>false,
                 "mapped"=>false

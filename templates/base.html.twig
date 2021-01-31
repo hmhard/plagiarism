@@ -13,8 +13,13 @@
 	</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    {# <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> #}
     <!-- Our Custom CSS -->
+   <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
+		
+    <link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/style.css')}}">
 
     <!-- Font Awesome JS -->
@@ -38,7 +43,7 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p><a href="{{path('home')}}"> Plagiarism checker</a></p>
+                <p><a href="{{app.user.userType.id == 1 ? path('student'):path('home')}}"> Plagiarism checker</a></p>
                 {# <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -54,11 +59,17 @@
                     </ul>
                 </li>
 				 #}
+               
+{% if app.user.userType.id == 3 or app.user.userType.id == 2    %}		
+
                 <li>
                     <a href="{{path('group_index')}}">Group</a>
                 </li>
                 <li>
                     <a href="{{path('project_index')}}">Project</a>
+                </li>
+                <li>
+                    <a href="{{path('project_session_index')}}">Project Session</a>
                 </li>
                 {% if app.user.usertype.id == 3 %}
                     
@@ -68,6 +79,16 @@
                 <li>
                     <a href="{{path('user_type_index')}}">User Type</a>
                 </li>
+                {% endif %}
+                {% endif %}
+                {% if app.user.usertype.id == 1 %}
+                    
+              <li>
+                    <a href="{{path('student')}}">My Groups</a>
+                </li>
+                {# <li>
+                    <a href="{{path('project_index')}}">My Projects</a>
+                </li> #}
                 {% endif %}
                 <li>
                     <a href="{{path('app_logout')}}">Logout</a>

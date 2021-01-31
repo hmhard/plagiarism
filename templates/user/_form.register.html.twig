@@ -1,0 +1,78 @@
+{{ form_start(form,{'attr': {'role':'form'}}) }}
+
+<div class="row">
+
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.firstName) }}</label>
+		{{ form_widget(form.firstName,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.middleName) }}</label>
+		{{ form_widget(form.middleName,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.lastName) }}</label>
+		{{ form_widget(form.lastName,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.sex) }}</label>
+		{{ form_widget(form.sex,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.email) }}</label>
+		{{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.phone) }}</label>
+		{{ form_widget(form.phone,{'attr':{'class':'form-control',"pattern":"\\+2519[0-9]{8}|09[0-9]{8}","required":"true"}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.userType) }}</label>
+		{{ form_widget(form.userType,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.roles) }}</label>
+		{{ form_widget(form.roles,{'attr':{'class':'form-control select2'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.idNumber) }}</label>
+		{{ form_widget(form.idNumber,{'attr':{'class':'form-control '}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.year) }}</label>
+		{{ form_widget(form.year,{'attr':{'class':'form-control select2'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+
+
+	
+	
+
+</div>
+
+
+{% if not button_label is defined  %}
+	<button class="btn btn-info float-right">{{ button_label|default('Save') }}</button>
+	<button class="btn  btn-warning float-right " style="margin-right:20px;" type="reset">Reset</button>
+
+{% else %}
+
+	<a href="{{ path('user_index') }}" class="btn btn-primary float-right">
+		Cancel
+	</a>
+
+	<button class="btn btn-success mr-2 float-right">{{ button_label|default('Save') }}</button>
+{% endif %}
+
+
+{{ form_end(form) }}

@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project
+{% endblock %}
+{% block maintitle %}Project Details
+{% endblock %}
+
+{% block body %}
+<div class="card">
+	<div class="card-body row">
+		<a class="btn btn-primary col-3" href="{{ path('student') }}">back to list</a>
+	</div>
+
+
+</div>
+
+{% for project in group.projects  %}
+	<div class="card">
+		{% set message = "Your project is not reviewed yet"  %}
+		{% set bar = "alert-secondary"  %}
+		{% if project.status == 2 %}
+			{% set message = "Your project is Accepted"  %}
+			{% set bar = "alert-success"  %}
+		{% elseif  project.status == 3   %}
+			{% set message = "Your project is Rejected"  %}
+			{% set bar = "alert-danger"  %}
+		{% endif %}
+
+		<div class="alert {{bar}}">{{message}}</div>
+
+		<div class="card-header">
+
+
+			<div class="row">
+				<h3 class="card-title col-3">Detail
+				</h3>
+				{% if project.status == 0 %}
+
+					<a class="btn btn-warning col-2 btn-sm offset-5 " href="{{ path('student_project_edit', {'id': project.id}) }}">Edit</a>
+					<form method="post" class="form-inline form-horizontal col-2" action="{{ path('project_delete', {'id': project.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
+						<button class="btn btn-danger btn-sm ">Delete</button>
+					</form>
+				{% endif %}
+			</div>
+
+			<div class="card-tools"></div>
+		</div>
+		<div class="card-body">
+
+
+			<table class="table">
+				<tbody>
+
+					<tr>
+						<th>Title</th>
+						<td>{{ project.title }}</td>
+
+
+						<th>Status</th>
+						{% set status = project.status  %}
+						{% set stat = ""  %}
+						{% if status == 0 %}
+							{% set stat = "Not Checked" %}
+						{% elseif status == 1 %}
+							{% set stat = "Checked" %}
+						{% elseif status == 2 %}
+							{% set stat = "accepted" %}
+						{% elseif status == 3 %}
+							{% set stat = "rejected" %}
+
+						{% endif %}
+						<td>
+							<span class="badge badge-warning">{{ stat }}</span>
+						</td>
+
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td colspan="3">{{ project.description }}</td>
+					</tr>
+					<tr>
+						<th>Group</th>
+						<td >{{ project.ownerGroup ~" ("~ (project.ownerGroup.academicYear ~" -"~ project.ownerGroup.year) ~")"}}</td>
+						<th>Project session</th>
+						<td >{{ project.projectSession}}</td>
+					</tr>
+
+					<tr>
+						<th>Uploaded At</th>
+						<td>{{ project.uploadedAt ? project.uploadedAt|date('Y-m-d H:iA') : '' }}</td>
+
+						<th>Checked At</th>
+						<td>{{ project.checkedAt ? project.checkedAt|date('Y-m-d H:iA') : '' }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+
+	{% if project.projectFileDetail %}
+
+		<div class="card card-info">
+
+			<div class="card-header">
+				<h3 class="card-title">File Detail</h3>
+				{% set file_detail = project.projectFileDetail  %}
+			</div>
+			<div class="card-body">
+				<table class="table table-borderless">
+					<tr>
+						<td width="20%">Line Count</td>
+						<td class=" h2  text-warning">{{file_detail.sentenceCount}}</td>
+						<td>Word Count</td>
+						<td class=" h2  text-success" style="">{{file_detail.wordCount}}</td>
+					</tr>
+					<tr>
+						<td width="40%">Distinct Words Count</td>
+						<td class=" h2 text-info">{{file_detail.distinctWordCount}}</td>
+						<td>Paragraph Count</td>
+						<td class=" h2  text-primary">not known</td>
+					</tr>
+					<tr>
+						<td width="40%">File Type</td>
+						<td class=" h2 text-info">docx</td>
+						<td>View File</td>
+						{# <td class=" h2  text-primary" >	<button class="btn btn-success  open_document">Open Document</button> #}
+					</tr>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>{% endif %}<div class="card card-info">
+
+<div class="card-header">
+	<h3 class="card-title">Plagiarism History</h3>
+
+</div>
+<div class="card-body">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Project</th>
+				<th>Onwer</th>
+				<th>Ac. Year</th>
+				<th>Similarity(%)</th>
+				<th>Checked At</th>
+				<th>Checked By</th>
+				<th>Actions</th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for hist in project.similarityHistories  %}
+				<tr>
+					<td>{{loop.index}}</td>
+					<td>{{hist.project}}</td>
+					<td>{{hist.project.ownerGroup}}</td>
+					<td>{{hist.project.ownerGroup.academicYear}}</td>
+					<td>{{hist.similarity}}</td>
+					<td>{{ hist.checkedAt ? project.checkedAt|date('Y-m-d H:iA') : '' }}</td>
+					<td>{{ hist.checkedBy }}</td>
+					<td>
+						{# <a class="btn btn-info btn-sm" href="{{ path('project_show', {'id': project.id}) }}">Check Again</a> #}
+						<form action="{{path('view_similarity')}}" method="post">
+							<input hidden name="check" value="true"/>
+							<input hidden name="original" value="{{project.id}}"/>
+							<input hidden name="to_be_checked" value="{{hist.project.id}}"/>
+							<button class="btn btn-warning btn-sm" type="submit">view content</button>
+						</form>
+					</td>
+
+				</tr>
+
+
+			{% else %}
+				<div class=" h3 text-red ">Not checked yet</div>
+
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	<div class="h2 text-danger">No Project uploaded in this group
+
+
+
+	</div>
+			<a class="btn btn-warning text-center m-auto " href="{{ path('student_project_upload') }}">Upload new Project</a>
+{% endfor %}{% endblock %}
+{% block javascripts %}
+<script>
+	$('.open_document').click(function () {
+
+
+var mywindow = window.open('{{ asset("documents/cov.docx") }}', 'viewer');
+mywindow.addEventListener('load', function () { // alert('hello');
+}, false);
+
+})
+</script>{% endblock %}

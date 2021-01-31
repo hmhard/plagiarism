@@ -16,7 +16,7 @@
 	
 	<div class="form-group col-4 ">
 		<label class="control-label no-padding-right">{{ form_label(form.phone) }}</label>
-		{{ form_widget(form.phone,{'attr':{'class':'form-control'}}) }}
+		{{ form_widget(form.phone,{'attr':{'class':'form-control',"pattern":"\\+2519[0-9]{8}|09[0-9]{8}","required":"true"}}) }}
 		<div class="help-block with-errors"></div>
 	</div>
 	<div class="form-group col-3 ">
@@ -45,9 +45,9 @@
 
 {% else %}
 
-	<a href="{{ path('group_index') }}" class="btn btn-primary float-right">
+	{# <a href="{{ path('group_index') }}" class="btn btn-primary float-right">
 		Cancel
-	</a>
+	</a> #}
 
 	<button class="btn btn-success mr-2 float-right">{{ button_label|default('Save') }}</button>
 {% endif %}

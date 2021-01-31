@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,9 +16,25 @@ class GroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $ch=[];
+        $users=[];
+        if($options['data']->getId()){
+            
+    
+    foreach($options['data']->getGroupMembers() as $user){
+        $users[]=$user->getUser();
+    }
+    
+    // dd($users);
+}
+else{
+  
+}
+      
         $builder
             ->add('name')
-            ->add('email')
+            ->add('email',EmailType::class)
             ->add('phone')
             ->add('academicYear',ChoiceType::class, [
                 "placeholder"=>"Academic Year",
@@ -42,7 +59,7 @@ class GroupType extends AbstractType
                 "6"=>6,
             ]])
             ->add('member'
-            // ,null,
+          
             , EntityType::class,
              [
                 'class' => User::class,
@@ -54,9 +71,10 @@ class GroupType extends AbstractType
                         ->andWhere('u.userType=1')
                         ->orderBy('u.id', 'ASC');
                     ;
-                    // dd($res->getQuery()->getResult());
+                 
                     return $res;
                 },
+              
                 'placeholder' => 'Add Member',
                  "mapped"=>false,
                  "multiple"=>true,

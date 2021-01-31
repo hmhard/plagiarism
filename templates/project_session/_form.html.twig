@@ -1,0 +1,42 @@
+{{ form_start(form,{'attr': {'role':'form'}}) }}
+
+<div class="row">
+
+	<div class="form-group col-4">
+		<label class="control-label no-padding-right">{{ form_label(form.name) }}</label>
+		{{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group col-6 ">
+		<label class="control-label no-padding-right">{{ form_label(form.timeFrom) }}</label>
+		{{ form_widget(form.timeFrom,{'attr':{'class':'form-control'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	
+	<div class="form-group col-4 ">
+		<label class="control-label no-padding-right">{{ form_label(form.timeTo) }}</label>
+		{{ form_widget(form.timeTo,{'attr':{'class':'form-control',"pattern":"\\+2519[0-9]{8}|09[0-9]{8}","required":"true"}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+
+	
+
+</div>
+
+
+{% if not button_label is defined  %}
+	<button class="btn btn-info float-right">{{ button_label|default('Save') }}</button>
+	<button class="btn  btn-warning float-right " style="margin-right:20px;" type="reset">Reset</button>
+
+{% else %}
+
+	{# <a href="{{ path('group_index') }}" class="btn btn-primary float-right">
+		Cancel
+	</a> #}
+
+	<button class="btn btn-success mr-2 float-right">{{ button_label|default('Save') }}</button>
+{% endif %}
+
+
+{{ form_end(form) }}

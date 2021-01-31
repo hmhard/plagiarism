@@ -2,13 +2,13 @@
 
 <div class="row">
 
-	<div class="form-group col-4">
+	<div class="form-group col-12">
 		<label class="control-label no-padding-right">{{ form_label(form.title) }}</label>
 		{{ form_widget(form.title,{'attr':{'class':'form-control'}}) }}
 		<div class="help-block with-errors"></div>
 	</div>
 
-	<div class="form-group col-6 ">
+	<div class="form-group col-12 ">
 		<label class="control-label no-padding-right">{{ form_label(form.description) }}</label>
 		{{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
 		<div class="help-block with-errors"></div>
@@ -17,6 +17,11 @@
 	<div class="form-group col-6 ">
 		<label class="control-label no-padding-right">{{ form_label(form.ownerGroup) }}</label>
 		{{ form_widget(form.ownerGroup,{'attr':{'class':'form-control select2'}}) }}
+		<div class="help-block with-errors"></div>
+	</div>
+	<div class="form-group col-6 ">
+		<label class="control-label no-padding-right">{{ form_label(form.projectSession) }} </label>
+		{{ form_widget(form.projectSession,{'attr':{'class':'form-control'}}) }}
 		<div class="help-block with-errors"></div>
 	</div>
 	<div class="form-group col-6 ">
@@ -34,9 +39,7 @@
 
 {% else %}
 
-	<a href="{{ path('project_index') }}" class="btn btn-primary float-right">
-		Cancel
-	</a>
+
 
 	<button class="btn btn-success mr-2 float-right">{{ button_label|default('Save') }}</button>
 {% endif %}

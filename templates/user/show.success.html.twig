@@ -1,0 +1,93 @@
+{% extends 'baseexternal.html.twig' %}
+
+{% block title %}User{% endblock %}
+{% block maintitle %}User Information{% endblock %}
+
+{% block body %}
+      	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools">
+
+				<a class="btn btn-primary" href="{{ path('app_login') }}">Login</a>
+			</div>
+		</div>
+		<div class="card-body">
+		<div class="h2">Account has been created successfully wait until the system admin activates!
+        </div>
+        <p>for any information contact the System adminstrator</p>
+        
+  <table class="table">
+        <tbody>
+          
+            <tr class="h2 text-danger">
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+          
+              <th>Password</th>
+                <td>{{ password }}</td>
+            </tr>
+            </tbody>
+            </table>
+
+    <table class="table">
+        <tbody>
+          
+            <tr>
+                <th>Full Name</th>
+                <td>{{ user.fullName }}</td>
+          
+              <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+           
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+          
+           
+              
+         
+                <th>Sex</th>
+                <td>{{ user.sex }}</td>
+                <th>Phone</th>
+                <td>{{ user.phone }}</td>
+            </tr>
+                {% if user.student %}
+                
+            <tr>
+           
+               <th>Id Number</th>
+                <td>{{ user.student.idNumber}}</td>
+               <th>Year</th>
+                <td>{{ user.student.year}}</td>
+            </tr>
+            {% endif %}
+            <tr>
+           
+                <th>Is Active?</th>
+                <td ><span class="badge badge-{{ user.isActive ? 'success' : 'danger' }}">{{ user.isActive ? 'Yes' : 'No' }}</span></td>
+                <th>Last Login</th>
+                <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        
+            <tr>
+           
+                <th>Created At</th>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:iA') : '' }}</td>
+          
+                <th>Updated At</th>
+                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:iA') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+  
+    {# <a  class="btn btn-warning float-right" href="{{ path('user_edit', {'id': user.id}) }}">Edit</a> #}
+
+    {# {{ include('user/_delete_form.html.twig') }} #}
+{% endblock %}

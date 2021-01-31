@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project Session
+{% endblock %}
+{% block maintitle %}Project Session
+{% endblock %}
+
+{% block body %}
+	<div class="card">
+
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+			<div class="card-tools float-right">
+
+				{{ include('project_session/_delete_form.html.twig') }}
+				<a class="btn btn-primary" href="{{ path('project_session_index') }}">back to list</a>
+
+				<a class="btn btn-warning mx-2" href="{{ path('project_session_edit', {'id': project_session.id}) }}">edit</a>
+			
+			</div>
+		</div>
+		<div class="card-body">
+
+    <table class="table">
+        <tbody>
+           
+            <tr>
+                <th>Name</th>
+                <td colspan="6">{{ project_session.name }}</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>{{ project_session.createdAt ? project_session.createdAt|date('Y-m-d H:iA') : '' }}</td>
+           
+                <th>Time Interval</th>
+                <td>{{ project_session.timeFrom ? project_session.timeFrom|date('h:iA d F y') : '' }} -
+            {{ project_session.timeTo ? project_session.timeTo|date('h:iA d F y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

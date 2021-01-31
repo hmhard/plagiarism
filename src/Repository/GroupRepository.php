@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Group|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,27 +15,59 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GroupRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Group::class);
+        $this->security=$security;
     }
 
     // /**
     //  * @return Group[] Returns an array of Group objects
     //  */
-    /*
-    public function findByExampleField($value)
+  
+    public function getData($value=[])
     {
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
+            // ->andWhere('g.exampleField = :val')
+            // ->setParameter('val', $value)
+            ->orderBy('g.id', 'DESC')
+         
             ->getQuery()
-            ->getResult()
+         
         ;
     }
-    */
+
+    public function getMyGroups($filter = [])
+    {
+
+        $qb = $this->createQueryBuilder('g');
+        if (isset($filter['user'])) {
+            $qb = $qb->join("App:GroupMember", "gm","WITH", "gm.belongsTo = g.id")
+                ->andWhere('gm.user in (:member)')
+                ->setParameter('member', $filter['user']);
+        }
+        if (isset($filter['user_me'])) {
+
+          
+            if($this->security->getUser()->getUserType()->getId()==1){
+                $qb = $qb->join("App:GroupMember", "gm","WITH", "gm.belongsTo = g.id")
+                ->andWhere('gm.user in (:member)')
+                ->setParameter('member', $this->security->getUser());
+            }
+
+                return $qb->orderBy('g.id', 'ASC');
+
+           
+        }
+       
+
+        return $qb->orderBy('g.id', 'ASC')
+
+            ->getQuery()
+            ->getResult();
+    }
+   
 
     /*
     public function findOneBySomeField($value): ?Group

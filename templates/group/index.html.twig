@@ -10,8 +10,10 @@
 	<div class="card">
 
 		<div class="card-header">
+				<a class="btn btn-primary float-right" href="{{ path('group_new') }}">Create new</a>
+	
 			<h3 class="card-title">
-				Groups List(Total:0)
+				Groups List(Total:{{groups.getTotalItemCount()}})
 			</h3>
 			<div class="card-tools">
 				{# <form id="navbar-search" class="navbar-form search-form pull-right">
@@ -28,7 +30,7 @@
 						<th>#</th>
 						<th>Name</th>
 						<th>Year</th>
-						<th>Academic Year</th>
+						<th>Ac. Year</th>
 						<th>Email</th>
 						<th>Phone</th>
 						<th>CreatedAt</th>
@@ -57,8 +59,9 @@
 					{% endfor %}
 				</tbody>
 			</table>
+				<div class="float-right" id="custompaginator">{{ knp_pagination_render(groups) }}</div>
 
-			<a class="btn btn-primary" href="{{ path('group_new') }}">Create new</a>
+
 		</div>
 	</div>
 {% endblock %}

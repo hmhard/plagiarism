@@ -11,7 +11,7 @@ import sys
 
 import datetime
 
-connection = mysql.connector.connect(host='localhost',database='plag',user='extra', password='Qwerty12!@')
+connection = mysql.connector.connect(host='localhost',database='plag',user='root', password='')
 
 # total arguments
 n = len(sys.argv)

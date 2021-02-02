@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +21,20 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="user_index")
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $queryBuilder = $userRepository->getData([]);
+   
+
+        $data = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            20
+        );
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $data,
         ]);
     }
 
@@ -217,8 +226,10 @@ class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
+            $user->setIsDeleted(true);
+            // $entityManager->remove($user);
             $entityManager->flush();
+            $this->addFlash("success","moved to trash");
         }
 
         return $this->redirectToRoute('user_index');

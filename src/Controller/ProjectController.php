@@ -264,8 +264,10 @@ class ProjectController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($project);
+            $project->setIsDeleted(true);
+            // $entityManager->remove($user);
             $entityManager->flush();
+            $this->addFlash("success","moved to trash");
         }
 
         return $this->redirectToRoute('project_index');

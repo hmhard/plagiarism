@@ -87,6 +87,11 @@ class Project
      */
     private $projectSession;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDeleted;
+
     public function __construct()
     {
         $this->similarityHistories = new ArrayCollection();
@@ -295,6 +300,18 @@ class Project
     public function setProjectSession(?ProjectSession $projectSession): self
     {
         $this->projectSession = $projectSession;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(?bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

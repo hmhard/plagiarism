@@ -77,6 +77,10 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Account not activated yet.');
         }
+        if ($user->getIsDeleted()) {
+          
+            throw new CustomUserMessageAuthenticationException('Deleted User!! try another one');
+        }
 
         return $user;
     }

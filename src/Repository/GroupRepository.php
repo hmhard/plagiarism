@@ -31,6 +31,7 @@ class GroupRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('g')
             // ->andWhere('g.exampleField = :val')
             // ->setParameter('val', $value)
+            ->andWhere('g.isDeleted is NULL')
             ->orderBy('g.id', 'DESC')
          
             ->getQuery()
